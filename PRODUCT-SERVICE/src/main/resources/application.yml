@@ -1,0 +1,32 @@
+server:
+  port: 8073
+
+spring:
+  application:
+    name: com.product.service
+  servlet:
+    multipart:
+      max-file-size: 10MB       # Maximum file size for a single upload (e.g., image)
+      max-request-size: 30MB   # Maximum request size (all files in a request)
+
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/cafe
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
