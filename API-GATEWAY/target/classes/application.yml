@@ -1,0 +1,74 @@
+server:
+  port: 8080
+
+spring:
+  main:
+    web-application-type: reactive
+
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
+
+
+          routes:
+            - id: auth-user-route
+              uri: lb://com.auth-service
+              predicates:
+                - Path=/user/**
+              filters:
+                - JwtAuthFilter
+
+            - id: auth-auth-route
+              uri: lb://com.auth-service
+              predicates:
+                - Path=/auth/**
+              filters:
+                - JwtAuthFilter
+
+            - id: auth-admin-route
+              uri: lb://com.auth-service
+              predicates:
+                - Path=/admin/**
+              filters :
+                - JwtAuthFilter
+
+            - id: category-service
+              uri: lb://com.category.service
+              predicates:
+                - Path=/category/**
+              filters:
+                - JwtAuthFilter
+
+            - id: product-service
+              uri:  lb://com.product.service
+              predicates:
+                - Path=/product/**
+              filters:
+                - JwtAuthFilter
+
+            - id: bill-service
+              uri:  lb://com.bill.service
+              predicates:
+                - Path=/bills/**
+              filters:
+                - JwtAuthFilter
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+jwt:
+  secret: "5367566B59703373367639792F423F4528482B4D6251655468576D5A713474377"
+
+
+
+
