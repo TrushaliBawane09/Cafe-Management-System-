@@ -1,0 +1,78 @@
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+
+<div class="admin-layout d-flex">
+  <!-- Sidebar -->
+  <nav id="sidebar" class="bg-dark text-white p-3" style="min-width: 250px;">
+    <div class="sidebar-header">
+      <h3>Cafe</h3>
+    </div>
+    <ul class="list-unstyled components">
+      <li *ngIf=" role === 'ROLE_ADMIN' || role ===  'ROLE_SUPERADMIN'"><i class="fas fa-chart-pie"></i> <a routerLink="dashboard" class="text-white">Dashboard</a></li>
+      <li *ngIf=" role === 'ROLE_ADMIN'"><i class="fas fa-list"></i> <a routerLink="manage-category" class="text-white">Manage Category</a></li>
+      <li *ngIf=" role === 'ROLE_ADMIN'"><i class="fas fa-box"></i> <a routerLink="manage-product" class="text-white">Manage Product</a></li>
+      <li *ngIf=" role === 'ROLE_ADMIN' || role === 'ROLE_USER' " ><i class="fas fa-shopping-cart"></i> <a routerLink="manage-order" class="text-white">Manage Order</a></li>
+      <li *ngIf=" role === 'ROLE_ADMIN' || role === 'ROLE_USER' "><i class="fas fa-file-invoice"></i> <a routerLink="view-bill" class="text-white">View Bill</a></li>
+      <li *ngIf=" role === 'ROLE_ADMIN'"><i class="fas fa-users"></i> <a routerLink="manage-user" class="text-white">Manage Users</a></li>
+      <li *ngIf=" role === 'ROLE_SUPERADMIN'"><i class="fas fa-users"></i> <a routerLink="manage-admin" class="text-white">Manage Admins</a></li>
+    </ul>
+  </nav>
+
+  <!-- Page Content -->
+  <div id="content" class="flex-grow-1">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
+      <div></div>
+      <div class="dropdown">
+        <button class="btn btn-light dropdown-toggle" type="button" id="adminDropdown" data-toggle="dropdown">
+          <i class="fas fa-user-circle"></i> {{username}}
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item"  type ="button" (click)="openModal()" >Change Password</a>
+          <a class="dropdown-item" type ="submit" (click)="logout()" >Logout</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- This is where Angular will inject page components -->
+    <div class="container-fluid mt-4">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+<!-- Change Password Modal -->
+<div class="modal" *ngIf="isModalOpen" style="display:block">
+  <div class="modal-dialog">
+    <form class="modal-content" action="" (ngSubmit)="changePassword();" method="post">
+      <div class="modal-header">
+        <h5 class="modal-title">Change Password</h5>
+        <button type="button" class="close" (click)="closeModal()"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Old Password</label>
+          <input type="password" class="form-control" [(ngModel)] = "passwordModify.oldPassword" name ="oldPassword" id="oldPassword" required />
+        </div>
+        <div class="form-group">
+          <label>New Password</label>
+          <input type="password" class="form-control" [(ngModel)] = "passwordModify.newPassword" name ="newPassword" id ="newPassword"  required />
+        </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input type="password" class="form-control" [(ngModel)] = "passwordModify.confirmPassword" name ="confirmPassword" id="confirmPassword" required />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"  (click)="closeModal()">Close</button>
+        <button type="submit" class="btn btn-primary" >Change Password</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>

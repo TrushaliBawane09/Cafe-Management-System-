@@ -1,0 +1,30 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Contact Number</th>
+       <th scope="col">Role</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{user.name}}</td>
+      <td>{{user.email}}</td>
+      <td>{{user.contact}}</td>
+      <td>
+        <select   class="form-select" [(ngModel)]="user.role" (change)="updateRole(user)">
+          <option value="ROLE_USER">User</option>
+          <option value="ROLE_ADMIN">Admin</option>
+        </select>
+    </td>
+      <td>
+          <label class="switch">
+        <input type="checkbox" [checked]="user.status" (change)="toggleStatus(user)">
+        <span class="slider round"></span>
+      </label>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,67 @@
+<div class="container  d-flex justify-content-between align-items-center">
+    <h4> Manage Order</h4>
+    <input type="submit" (click)="generateBill()"  value="Submit & Get Bill" class="btn btn-primary" >
+</div>
+  <hr style="border: 1px solid black; margin: 8px 0;">
+
+<div class="container">
+  <h5>Customer Details</h5>
+    <form class="d-flex gap-3" action="" method="post">
+    <input type="text" name="name" class="form-control"  [(ngModel)]="bills.name" placeholder="Name">
+    <input type="email" name="email" class="form-control" [(ngModel)]="bills.email"  placeholder="Email">
+    <input type="text" name="contact" class="form-control" [(ngModel)]="bills.contactNumber" placeholder="Contact Number">
+    <select class="form-control" name="categoryId" [(ngModel)]="bills.paymentMode" >
+      <option value="" disabled selected>Select Category</option>
+      <option>Cash</option>
+      <option>G-Pay Payment</option>
+      <option>Card Payment</option>
+      <option>Phone Pay</option>
+    </select>
+  </form>
+
+  <hr class="mt-4" style="border: 1px solid black;">
+
+   <h5>Select Product</h5>
+  <form class="d-flex gap-3" (ngSubmit)="addProduct();" method="post">
+    <select class="form-control" name="productCategory"  [(ngModel)]="selectedCategoryId" (change)="onCategoryChange()">
+      <option value="" disabled selected>Select Category</option>
+      <option  *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
+    </select>
+
+    <select class="form-control" name="product" [(ngModel)]="selectedProductId" >
+      <option value="" disabled selected>Select Product</option>
+      <option *ngFor="let product of filteredProducts" [ngValue]="product.id">
+      {{product.name}}</option>
+    </select>
+
+    <input type="number" name="price" class="form-control" [(ngModel)] = "cartProduct.price" placeholder="Price">
+    <input type="number" name="quantity" class="form-control"  [(ngModel)] = "cartProduct.quantity" placeholder="Quantity">
+    <input type="number" name="total" class="form-control"  [(ngModel)] = "cartProduct.total" placeholder="Total">
+    <div class=" container ">
+        <input type="submit" value=" Add product" class="btn btn-primary" >
+    </div>
+  </form>
+</div>
+<hr class="mt-4" style="border: 1px solid black; margin: 8px 0;">
+<div class="conatiner">
+  <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">category</th>
+      <th scope="col">Price</th>
+      <th scope="col">Qantity</th>
+      <th scope="col">Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let list of cartProductList">
+      <td >{{list.categoryName}}</td>
+      <td>{{list.productName}}</td>
+      <td>{{list.price}}</td>
+      <td>{{list.quantity}}</td>
+      <td>{{list.total}}</td>
+    </tr>
+  </tbody>
+</table>
+</div>

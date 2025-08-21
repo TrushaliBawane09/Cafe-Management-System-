@@ -1,0 +1,114 @@
+
+<!-- Button trigger modal -->
+ <div class="container  d-flex justify-content-between align-items-center">
+    <h4> Manage Product</h4>
+  <button type="button" class="btn btn-primary" (click)="openAddProductModal()">Add Product </button>
+</div>
+
+<div class="container mt-3">
+  <input type="text" class="form-control" id="searchInput" placeholder="Search...">
+</div>
+
+
+<div class="conatiner">
+  <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Product</th>
+      <th scope="col">Name</th>
+      <th scope="col">category</th>
+      <th scope="col">Description</th>
+      <th scope="col">Price</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of productList">
+  <td>
+    <img *ngIf="product.imageUrl"
+       [src]="product.imageUrl"
+       alt="{{ product.name }}"
+       width="100" height="70" />
+  </td>
+  <td>{{product.name}}</td>
+  <td>{{product.categoryDTO?.name}}</td>
+  <td>{{product.description}}</td>
+  <td>{{product.price}}</td>
+  <td>
+    <i class="fa-solid fa-pen text-primary" (click)="openEditProductModal(product);"></i>
+    <i class="fa-solid fa-trash text-danger ml-3" (click)="deleteProduct(product.id!)"></i>
+  </td>
+</tr>
+
+  </tbody>
+</table>
+</div>
+<!-- Modal -->
+<div class="modal" id="exampleModal" *ngIf="isAddProductModal" style="display: block;">
+  <div class="modal-dialog">
+    <form action="" (ngSubmit)="addProduct();" method="post" >
+      <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+              <button type="button" class="close" (click)="closeAddProductModal()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <input type="text" name="name" class="form-control mb-2" placeholder="Product Name" [(ngModel)]="product.name">
+                <div class="row">
+                  <div class="col-md-6">
+                    <input type="number" name="price" class="form-control" placeholder="Price" [(ngModel)]="product.price">
+                  </div>
+
+                  <div class="col-md-6">
+                    <select id="inputState" class="form-control" placeholder="Category" name="categoryId"[(ngModel)]="product.categoryId">
+                      <option value="" disabled selected>Select Category</option>
+                      <option *ngFor="let category of categories" [value]="category.id">
+                        {{category.name}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              <input type="text" name="description" class="form-control mt-2" placeholder="Description" [(ngModel)]="product.description">
+              <div class="form-group">
+                <label for="exampleFormControlFile1">Add product image</label>
+                <input type="file" class="form-control-file" id="exampleFormControlFile1" (change)="selectedProductImage($event)">
+              </div>
+            </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeAddProductModal()">Close</button>
+          <input type="submit"   name="btn" value="Add Product" class="btn btn-primary">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal" id="editProductModal" *ngIf="isProductEditModal" style="display: block;">
+  <div class="modal-dialog">
+    <form  (ngSubmit)="updateProduct()" action="" method="post" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Category</h5>
+          <button type="button" class="close" (click)="closeEditProductModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="text" name ="name" class="form-control" placeholder="Edit Category" [(ngModel)]="updProduct.name">
+          <input type="text" name ="price" class="form-control" placeholder="Edit Category" [(ngModel)]="updProduct.price">
+          <input type="text" name ="category" class="form-control" placeholder="Edit Category" [(ngModel)]="categoryName">
+          <input type="text" name ="description" class="form-control" placeholder="Edit Category" [(ngModel)]="updProduct.description">
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeEditProductModal()">Close</button>
+          <input type="submit"   name="btn" value="Edit Product" class="btn btn-primary">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
